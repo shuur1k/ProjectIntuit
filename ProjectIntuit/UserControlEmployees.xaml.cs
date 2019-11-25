@@ -298,7 +298,7 @@ namespace ProjectIntuit
         {
             BorderFind.Visibility = System.Windows.Visibility.Visible;
         }
-
+   
         private void TextBoxSurname_TextChanged(object sender, TextChangedEventArgs e)
         {
             ButtonFindSurname.IsEnabled = true;
