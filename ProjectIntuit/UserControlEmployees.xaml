@@ -1,0 +1,96 @@
+﻿<UserControl x:Class="ProjectIntuit.UserControlClients"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ProjectIntuit"
+             xmlns:command="clr-namespace:ProjectIntuit.Command"
+             xmlns:rule="clr-namespace:ProjectIntuit.ValidationRules"
+             xmlns:core ="clr-namespace:ProjectIntuit.Model"
+              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:rule1="clr-namespace:ProjectIntuit.ValidationRules"
+             mc:Ignorable="d" 
+             d:DesignHeight="400" d:DesignWidth="550"
+             Loaded="Page_Loaded">
+
+    <UserControl.Resources>
+        <core:ListTitle x:Key="listTitle" />
+    </UserControl.Resources> 
+    <Grid>
+        <materialDesign:TransitioningContent x:Name="TransitioningContentSlide" OpeningEffect="{materialDesign:TransitionEffect SlideInFromLeft, Duration=0:0:0.2}">
+
+            <StackPanel>
+                <TextBlock Text="Список сотрудников" FontSize="15" FontFamily="Mangal" Margin="10 0"/>
+                <StackPanel Width="550" Orientation="Vertical" Margin="10 0 10 350">
+                    <ToolBar x:Name="ToolBar1" Height="40" Background="Transparent" Padding="0" VerticalAlignment="Top">
+                        <Button x:Name="Undo" ToolTip="Отменить редактирование/создание"  Padding="5" >
+                            <materialDesign:PackIcon Kind="Undo" VerticalAlignment="Center" />
+                        </Button>
+                        <Button x:Name="add" ToolTip="Добавить"  Click="AddClick" Padding="5">
+                            <materialDesign:PackIcon Kind="Add" VerticalAlignment="Center"/>
+                        </Button>
+                        <Button x:Name="edit" ToolTip="Редактировать"  Click="EditClick" Padding="5">
+                            <materialDesign:PackIcon Kind="Edit" VerticalAlignment="Center"/>
+                        </Button>
+                        <Button x:Name="serch" ToolTip="Поиск"  Padding="5" Click="Serch_Click" >
+                            <materialDesign:PackIcon Kind="Search" VerticalAlignment="Center" />
+                        </Button>
+                        <Button x:Name="save" ToolTip="Сохранить"  Click="SaveClick" Padding="5">
+                            <materialDesign:PackIcon Kind="ContentSave" VerticalAlignment="Center"/>
+                        </Button>
+                        <Button x:Name="remove" ToolTip="Удалить" Click="DeleteClick" Padding="5">
+                            <materialDesign:PackIcon Kind="Delete" VerticalAlignment="Center"/>
+                        </Button>
+                    </ToolBar>
+
+                    <DataGrid Name="DataGridCliesnt" ItemsSource="{Binding}"  VerticalAlignment="Top" AutoGenerateColumns="False" >
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Фамилия" Binding="{Binding Surname, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MinWidth="100"/>
+                            <DataGridTextColumn Header="Имя" Binding="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MinWidth="100"/>
+                            <DataGridTextColumn Header="Отчество" Binding="{Binding Patronumic, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MinWidth="100" />
+                            <DataGridTemplateColumn Header="Дата рождения" CellTemplate="{StaticResource DataTemplate}" CellEditingTemplate="{StaticResource EditingDataTemplate}"/>
+                            <DataGridComboBoxColumn Header="Должность" ItemsSource="{Binding Source={StaticResource listTitle}}" DisplayMemberPath="TitleID"    
+                             SelectedValueBinding="{Binding Path=TitleID, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedValuePath="ID"/>
+                            <DataGridTextColumn Header="Телефон" Binding="{Binding Telephone, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MinWidth="100"/>
+                            <DataGridTextColumn Header="Электронная почта"  MinWidth="100">
+                                <DataGridTextColumn.Binding >
+                                    <Binding Path="Email" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions ="True"  >
+                                        <Binding.ValidationRules>
+                                            <rule:EmailRule />
+                                        </Binding.ValidationRules>
+                                    </Binding>
+                                </DataGridTextColumn.Binding>
+                            </DataGridTextColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Border x:Name="BorderFind" Visibility="Hidden">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                             <TextBlock Grid.Column="1" Name="TextBlockTitle" Text="Должность"/>
+                            <TextBox Grid.Column="0" Name="TextBoxSurname" TextChanged="TextBoxSurname_TextChanged"/>
+                            <ComboBox Grid.Column="1" Name="ComboBoxTitle" ItemsSource="{Binding Source={StaticResource listTitle}}" DisplayMemberPath="TitleID" SelectionChanged="ComboBoxTitle_SelectionChanged"/>
+                            <Button Grid.Column="0" Name="ButtonFindSurname" ToolTip="Поиск по фамилии" Width="30" HorizontalAlignment="Right" Margin="20 0" IsEnabled="False" Click="ButtonFindSurname_Click">
+                                <Image />
+                            </Button>
+                            <Button Grid.Column="1" Name="ButtonFindTitle" ToolTip="Поиск по должности" Width="30" HorizontalAlignment="Right" Margin="20 0" IsEnabled="False" Click="ButtonFindTitle_Click">
+                                <Image />
+                            </Button>
+                        </Grid>
+                       </Border>
+                </StackPanel>
+            </StackPanel>
+        </materialDesign:TransitioningContent>
+    </Grid>
+
+    <UserControl.CommandBindings>
+        <CommandBinding Command="Undo" Executed="UndoCommandBinding_Execute" CanExecute="UndoCommandBinding_CanExecute"/>
+        <CommandBinding Command="New" Executed="AddCommandBinding_Execute" CanExecute="AddCommandBinding_CanExecute"/>
+        <CommandBinding Command="command:DataCommands.Edit" Executed="EditCommandBinding_Execute" CanExecute="EditCommandBinding_CanExecute"/>
+        <CommandBinding Command="Search" Executed="SearchCommandBinding_Execute" CanExecute="SearchCommandBinding_CanExecute"/>
+        <CommandBinding Command="Save" Executed="SaveCommandBinding_Execute" CanExecute="SaveCommandBinding_CanExecute"/>
+        <CommandBinding Command="command:DataCommands.Delete" Executed="DeleteCommandBinding_Execute" CanExecute="DeleteCommandBinding_CanExecute"/>
+    </UserControl.CommandBindings>
+</UserControl>
