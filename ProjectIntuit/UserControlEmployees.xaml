@@ -83,8 +83,7 @@
                 </StackPanel>
             </StackPanel>
         </materialDesign:TransitioningContent>
-    </Grid>
-
+    </Grid > 
     <UserControl.CommandBindings>
         <CommandBinding Command="Undo" Executed="UndoCommandBinding_Execute" CanExecute="UndoCommandBinding_CanExecute"/>
         <CommandBinding Command="New" Executed="AddCommandBinding_Execute" CanExecute="AddCommandBinding_CanExecute"/>
