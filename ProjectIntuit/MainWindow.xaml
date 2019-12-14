@@ -59,7 +59,7 @@
                     </StackPanel>
                 </ListViewItem>
 
-                <ListViewItem Height="60" >
+                <ListViewItem Height="60" Selected="ListViewItem_Selected" >
                     <StackPanel Orientation="Horizontal" >
                         <materialDesign:PackIcon Kind="People" Width="30" Height="30" VerticalAlignment="Center" Margin="5"/>
                         <TextBlock Text="Employees" VerticalAlignment="Center" FontSize="22" Margin="20 0" />

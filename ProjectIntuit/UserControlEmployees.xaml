@@ -20,7 +20,7 @@
         <materialDesign:TransitioningContent x:Name="TransitioningContentSlide" OpeningEffect="{materialDesign:TransitionEffect SlideInFromLeft, Duration=0:0:0.2}">
 
             <StackPanel>
-                <TextBlock Text="Список сотрудников" FontSize="15" FontFamily="Mangal" Margin="10 0"/>
+                <TextBlock Text="Отчёт" FontSize="30 " FontFamily="Mangal" Margin="10 0"/>
                 <StackPanel Width="550" Orientation="Vertical" Margin="10 0 10 350">
                     <ToolBar x:Name="ToolBar1" Height="40" Background="Transparent" Padding="0" VerticalAlignment="Top">
                         <Button x:Name="Undo" ToolTip="Отменить редактирование/создание"  Padding="5" >
